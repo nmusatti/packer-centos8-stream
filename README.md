@@ -5,6 +5,11 @@ base boxes for [VirtualBox](https://www.virtualbox.org/).
 This project supports the creation of the following kind of base boxes:
 * bare: A minimal installation without Virtual Box Guest Additions on a 16GB dynamically sized disk;
 * vbga: A minimal installation with Guest Additions on a 32GB dinamically sized disk.
+* gui: A basic GNOME workstation, derived from the `vbga` base box.
+* mate: A basic MATE desktop workstation, derived from the `gui` base box.
+
+Note that, as the MATE desktop is not available from the [EPEL repository](https://fedoraproject.org/wiki/EPEL), it is installed from
+the [Official unofficial repository for MATE for EL8](https://copr.fedorainfracloud.org/coprs/stenstorp/MATE/)
 
 The `bare` base box may be built with the following command:
 
@@ -16,8 +21,17 @@ result in a `centos8-stream-bare.box` file being created, which may be installed
 
     vagrant box add -f --name centos8-stream-bare centos8-stream-bare.box
 
-To build the `vbga` base box, replace `bare` with `vbga` in the commands above.
+To build the `vbga` base box, replace `bare` with `vbga` in the commands above. Once you have built and installed the `centos8-stream-vbga.box`
+you may build the `centos8-stream-gui` box with the following command:
+
+    packer build centos-gui.json
+
+The new box will be stored in the `centos8-stream-gui/package.box` file. It may be installed as follows:
+
+    vagrant box add -f --name centos8-stream-gui centos8-stream-gui/package.box
+
+Once the `centos8-stream-gui` box is install you may build the `centos8-stream-mate` one by replacing `mate` for `gui` in the last two commands.
 
 This project was derived from the templates available in the [packer-templates](https://github.com/maier/packer-templates) project.
-A sibling [packer-centos8](https://github.com/nmusatti/packer-centos8) project may be used to build plain CentOS 8 boxes. CentOS 7
-boxes may be built by means of the [packer-centos7](https://github.com/nmusatti/packer-centos7) project.
+Sibling [packer-centos7](https://github.com/nmusatti/packer-centos7), [packer-centos8](https://github.com/nmusatti/packer-centos8) and
+[packer-fedora](https://github.com/nmusatti/packer-fedora) projects may be used to build CentOS 7, CentOS 8 and Fedora boxes.
